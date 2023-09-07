@@ -56,5 +56,11 @@ def api(empleados:List[int]):
     # Obtener estadísticas
     
     elif opcion == 4:
-        
-        return lq.estadisticas(empleados=empleados)
+        while True:
+            try: 
+                jornadamensual = int(input("Ingrese el número de horas mensuales trabajadas: "))
+                break
+            except:
+                print("Tenes que ingresar un número entero")
+                
+        return lq.estadisticas(empleados=empleados,jornadamensual=jornadamensual)

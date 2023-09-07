@@ -122,27 +122,27 @@ def LiquidacionCompleta(empleados: List[Dict],jornadamensual: int): # -> retorna
 
 #Obtener algunas estadisticas y valores agregados en cuanto a los sueldos
 
-def brutototal(empleados: List[Dict]):
-  return sum([x for _,x,__ in LiquidacionCompleta(empleados)])
+def brutototal(empleados: List[Dict],jornadamensual: int):
+  return sum([x for _,x,__ in LiquidacionCompleta(empleados,jornadamensual)])
 
-def netototal(empleados: List[Dict]):
-  return sum([x for _,__,x in LiquidacionCompleta(empleados)])
+def netototal(empleados: List[Dict],jornadamensual: int):
+  return sum([x for _,__,x in LiquidacionCompleta(empleados,jornadamensual)])
 
-def netopromedio(empleados: List[Dict]):
-  return sum([x for _,__,x in LiquidacionCompleta(empleados)])/len(empleados)
+def netopromedio(empleados: List[Dict],jornadamensual: int):
+  return sum([x for _,__,x in LiquidacionCompleta(empleados,jornadamensual)])/len(empleados)
 
-def mejorpago(empleados: List[Dict]):
-  return max(([(y,x) for y,__,x in LiquidacionCompleta(empleados)]),key=lambda x: x[1])
+def mejorpago(empleados: List[Dict],jornadamensual: int):
+  return max(([(y,x) for y,__,x in LiquidacionCompleta(empleados,jornadamensual)]),key=lambda x: x[1])
 
-def peorpago(empleados: List[Dict]):
-  return min(([(y,x) for y,__,x in LiquidacionCompleta(empleados)]),key=lambda x: x[1])
+def peorpago(empleados: List[Dict],jornadamensual: int):
+  return min(([(y,x) for y,__,x in LiquidacionCompleta(empleados,jornadamensual)]),key=lambda x: x[1])
 
-def estadisticas(empleados: List[Dict]): # -> Retorna un diccionario con las estadisticas y valores agregados
+def estadisticas(empleados: List[Dict],jornadamensual: int): # -> Retorna un diccionario con las estadisticas y valores agregados
     estadisticas = {
-                        "Sueldos Brutos totales a pagar": brutototal(empleados),
-                        "Sueldos Netos totales": netototal(empleados),
-                        "Sueldo Neto Promedio": netopromedio(empleados),
-                        "Empleado Mejor Pago": mejorpago(empleados),
-                        "Empleado Peor Pago": peorpago(empleados)
+                        "Sueldos Brutos totales a pagar": brutototal(empleados,jornadamensual),
+                        "Sueldos Netos totales": netototal(empleados,jornadamensual),
+                        "Sueldo Neto Promedio": netopromedio(empleados,jornadamensual),
+                        "Empleado Mejor Pago": mejorpago(empleados,jornadamensual),
+                        "Empleado Peor Pago": peorpago(empleados,jornadamensual)
                     }
     return estadisticas
