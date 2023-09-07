@@ -1,6 +1,8 @@
+from typing import List,Tuple,Dict
+
 # Funciones Para cargar empleados
 
-def CargarEmpleado(Empleados):
+def CargarEmpleado(Empleados: List[Dict]): # -> Sirve para cargar un empleado a la lista de empleados 
   while True:
     nombre = input("Ingrese el nombre del empleado: ")
     pagaxhora = float(input("Ingrese la paga por hora del empleado: "))
@@ -23,13 +25,13 @@ def CargarEmpleado(Empleados):
 
   Empleados.append(Empleado)
 
-def CargarEmpleados(Empleados, Cantidad):
+def CargarEmpleados(Empleados: List[Dict], Cantidad: int): # -> Sirve para cargar 1 o mas empleados a la lista
   for i in range(1,Cantidad+1):
     print(f"Cargando Empleado {i}")
     CargarEmpleado(Empleados)
     
 # FUncion para modificar datos de un empleado
-def ModificarDatos(Empleados,NumEmpleado):
+def ModificarDatos(Empleados: List[Dict],NumEmpleado: int): # -> Sirve para modificar los datos de un empleado utilizando su indice 
   seguir = True
   print("Opciones de cambio:\n1: Nombre\n2: Paga por hora\n3: Faltas")
   while seguir:
@@ -96,18 +98,18 @@ def ModificarDatos(Empleados,NumEmpleado):
 
 #Obtener el salario bruto de cada empleado
 
-def SalarioBruto(valorhoraempleado, jornadamensual):
+def SalarioBruto(valorhoraempleado: float, jornadamensual: int): # -> Sirve para obtener el salario bruto de un empleado
   return jornadamensual * valorhoraempleado
 
 # Obtener el salario neto de cada empleado
-def SueldoNeto(valorhoraempleado,Faltas,jornadamensual):
+def SueldoNeto(valorhoraempleado: float,Faltas: int,jornadamensual: int): # -> Sirve para obtener el salario neto de un empleado
   sueldobruto = SalarioBruto(valorhoraempleado,jornadamensual)
   ganancias = (sueldobruto - 400000)*0.35 if sueldobruto > 400000 else 0
   sueldoneto = sueldobruto - sueldobruto*0.10 - sueldobruto*0.06 - sueldobruto*0.02 - ganancias - (valorhoraempleado*8*Faltas)
   return sueldoneto
 
-# Obtener la liquidación de cada empleado y que retorne una tupla con ("Nombre","Sueldo Bruto","Sueldo Neto")
-def LiquidacionCompleta(empleados,jornadamensual):
+# Obtener la liquidación de cada empleado
+def LiquidacionCompleta(empleados: List[Dict],jornadamensual: int): # -> retorna una lista de tuplas con ("Nombre","Sueldo Bruto","Sueldo Neto")
   nombres = []
   salbruts = []
   salnetos = []
@@ -120,17 +122,27 @@ def LiquidacionCompleta(empleados,jornadamensual):
 
 #Obtener algunas estadisticas y valores agregados en cuanto a los sueldos
 
-def brutototal(empleados):
+def brutototal(empleados: List[Dict]):
   return sum([x for _,x,__ in LiquidacionCompleta(empleados)])
 
-def netototal(empleados):
+def netototal(empleados: List[Dict]):
   return sum([x for _,__,x in LiquidacionCompleta(empleados)])
 
-def netopromedio(empleados):
+def netopromedio(empleados: List[Dict]):
   return sum([x for _,__,x in LiquidacionCompleta(empleados)])/len(empleados)
 
-def mejorpago(empleados):
+def mejorpago(empleados: List[Dict]):
   return max(([(y,x) for y,__,x in LiquidacionCompleta(empleados)]),key=lambda x: x[1])
 
-def peorpago(empleados):
+def peorpago(empleados: List[Dict]):
   return min(([(y,x) for y,__,x in LiquidacionCompleta(empleados)]),key=lambda x: x[1])
+
+def estadisticas(empleados: List[Dict]): # -> Retorna un diccionario con las estadisticas y valores agregados
+    estadisticas = {
+                        "Sueldos Brutos totales a pagar": brutototal(empleados),
+                        "Sueldos Netos totales": netototal(empleados),
+                        "Sueldo Neto Promedio": netopromedio(empleados),
+                        "Empleado Mejor Pago": mejorpago(empleados),
+                        "Empleado Peor Pago": peorpago(empleados)
+                    }
+    return estadisticas
